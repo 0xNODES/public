@@ -1,0 +1,12 @@
+{
+  "network": "mainnet",
+  "address": {
+    "kernel": "0xcfcff4Eb4799cdA732E5b27C3a36A9CE82DbabE0",
+    "strategyMap": "0x7a91955071cb94e8df3f21edBfb2d470ab3970F2",
+    "userPositions": "0x66d430Fd4B66e306132fe97723a6d55BAA404d2c",
+    "yieldManager": "0xa558Ba0b4D55e0c6ce81ea309c16528Ed2C803C9",
+    "integrationMap": "0x8A25a76061aAd96CB61e8017C50E70FBf86F888E",
+    "wrappedNative": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+  },
+  "startBlock": "13300000"
+}

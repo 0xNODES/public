@@ -1,0 +1,12 @@
+{
+  "network": "bsc",
+  "address": {
+    "kernel": "0x37c12DE5367Fa61Ad05e2BF2d032d7ce5dd31793",
+    "strategyMap": "0x8E32d07b3BA2a9b1b7e591023446e8BA2F5DeD1a",
+    "userPositions": "0xe1B683F9B17F1a05a9f6F7AcC1D715184a831658",
+    "yieldManager": "0x4DF797536F2043a77F7304cE19868731D82061B4",
+    "integrationMap": "0x9491285a0a0cdbC54c380f1736e9B8798d9EE45a",
+    "wrappedNative": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+  },
+  "startBlock": "14415700"
+}

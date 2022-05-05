@@ -1,0 +1,182 @@
+specVersion: 0.0.3
+description: 0xNODES System11 Subgraph
+repository: https://github.com/0xnodes/platform
+schema:
+  file: ./schema.graphql
+dataSources:
+  # StrategyMap
+  - kind: ethereum/contract
+    name: StrategyMap
+    # prettier-ignore
+    network: andromeda
+    source:
+      address: "0x0Ee59c17E35DF0B828DE3E5A0Bd6D8729d34a832"
+      abi: StrategyMap
+      # prettier-ignore
+      startBlock: 812576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Strategy
+        - StrategyIntegration
+        - StrategyYield
+      abis:
+        - name: StrategyMap
+          file: ./abi/StrategyMap.json
+        - name: YieldManager
+          file: ./abi/YieldManager.json
+      eventHandlers:
+        - event: NewStrategy(indexed uint256,(address,uint32)[],(uint256,address,uint32)[],string)
+          handler: handleNewStrategy
+        - event: UpdateName(indexed uint256,string)
+          handler: handleUpdateName
+      file: ./src/mappings/StrategyMap.ts
+
+  # UserPositions
+  - kind: ethereum/contract
+    name: UserPositions
+    # prettier-ignore
+    network: andromeda
+    source:
+      address: "0x2a5352C810D0C1cC1e907Db0552459B46a82433B"
+      abi: UserPositions
+      # prettier-ignore
+      startBlock: 812576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Strategy
+        - StrategyTokenBalance
+        - TokenTotalDeposits
+      abis:
+        - name: ERC20
+          file: ./abi/IERC20MetadataUpgradeable.json
+        - name: IntegrationMap
+          file: ./abi/IntegrationMap.json
+        - name: UserPositions
+          file: ./abi/UserPositions.json
+      eventHandlers:
+        - event: EnterStrategy(indexed uint256,indexed address,(address,uint256)[])
+          handler: handleEnterStrategy
+        - event: ExitStrategy(indexed uint256,indexed address,(address,uint256)[])
+          handler: handleExitStrategy
+        - event: Deposit(indexed address,address[],uint256[],uint256)
+          handler: handleDeposit
+      file: ./src/mappings/UserPositions.ts
+
+  # YieldManager
+  - kind: ethereum/contract
+    name: YieldManager
+    # prettier-ignore
+    network: andromeda
+    source:
+      address: "0x34B41c2BEb2d5BA75cfd78047908f22F79468104"
+      abi: YieldManager
+      # prettier-ignore
+      startBlock: 812576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - DistributionWeights
+      abis:
+        - name: YieldManager
+          file: ./abi/YieldManager.json
+      eventHandlers:
+        - event: HarvestYield(uint256,address[],uint256)
+          handler: handleHarvestYield
+      file: ./src/mappings/YieldManager.ts
+
+  # Kernel
+  - kind: ethereum/contract
+    name: Kernel
+    # prettier-ignore
+    network: andromeda
+    source:
+      address: "0xa1DA47F6563e7B17075FcA61DeDC4622aE2F3912"
+      abi: Kernel
+      # prettier-ignore
+      startBlock: 812576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - DistributionWeighting
+        - PlatformData
+        - StrategyYield
+        - Token
+      abis:
+        - name: IntegrationMap
+          file: ./abi/IntegrationMap.json
+        - name: Kernel
+          file: ./abi/Kernel.json
+        - name: ERC20
+          file: ./abi/IERC20MetadataUpgradeable.json
+      eventHandlers:
+        - event: EthDistributionWeightsUpdated(uint32,uint32,uint32,uint32)
+          handler: handleEthDistributionWeightsUpdated
+        - event: DistributeEth()
+          handler: handleDistributeEth
+        - event: TokenAdded(indexed address,bool,bool,bool,bool,uint256,uint256,uint256,uint256,uint256)
+          handler: handleTokenAdded
+        - event: Withdraw(indexed address,address[],uint256[],uint256)
+          handler: handleWithdraw
+      file: ./src/mappings/Kernel.ts
+
+  # LegacyKernel is the same Kernel, just older interface
+  - kind: ethereum/contract
+    name: LegacyKernel
+    # prettier-ignore
+    network: andromeda
+    source:
+      address: "0xa1DA47F6563e7B17075FcA61DeDC4622aE2F3912"
+      abi: LegacyKernel
+      # prettier-ignore
+      startBlock: 812576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Token
+      abis:
+        - name: IntegrationMap
+          file: ./abi/IntegrationMap.json
+        - name: LegacyKernel
+          file: ./abi/ILegacyKernel.json
+        - name: ERC20
+          file: ./abi/IERC20MetadataUpgradeable.json
+      eventHandlers:
+        - event: TokenAdded(indexed address,bool,bool,uint256,uint256)
+          handler: handleTokenAddedLegacy
+      file: ./src/mappings/Kernel.ts
+
+  - kind: ethereum/contract
+    name: IntegrationMap
+    # prettier-ignore
+    network: andromeda
+    source:
+      address: "0x468D12bf37aB192d4584452AD4D295ab3e81A255"
+      abi: IntegrationMap
+      # prettier-ignore
+      startBlock: 812576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - PlatformData
+        - Token
+      abis:
+        - name: IntegrationMap
+          file: ./abi/IntegrationMap.json
+      eventHandlers:
+        - event: TokenSettingToggled(indexed address,indexed uint8,indexed bool)
+          handler: handleTokenSettingToggled
+      file: ./src/mappings/IntegrationMap.ts

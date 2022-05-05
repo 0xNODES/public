@@ -1,0 +1,266 @@
+type PlatformData @entity {
+  """
+  {chain}
+  """
+  id: ID!
+
+  tokens: [Token!]! @derivedFrom(field: "ref")
+}
+
+type Token @entity {
+  """
+  {chain}#{token}
+  """
+  id: ID!
+
+  # the network, so that PlatformData can ref
+  ref: PlatformData!
+
+  # the token's contract address
+  address: String!
+
+  # the token's name
+  name: String!
+
+  # the token's symbol
+  symbol: String!
+
+  # the token's decimals
+  decimals: BigInt!
+
+  # total amount of token deposited
+  amount: BigInt!
+
+  # List of tokens with deposits enabled
+  depositsEnabled: Boolean!
+
+  # List of tokens with withdrawals enabled
+  withdrawalsEnabled: Boolean!
+
+  # List of tokens with LP enabled
+  LPEnabled: Boolean!
+
+  # List of tokens with Interconnects bridging enabled
+  bridgingEnabled: Boolean!
+
+  # The bios reward weight
+  biosRewardWeight: BigInt!
+}
+
+type StrategyIntegration @entity {
+  """
+  {strategy.id}#{integration}#{pool}
+  """
+  id: ID!
+
+  # the strategy
+  strategy: Strategy!
+
+  # the integration
+  integration: String!
+
+  # the integration poolId
+  pool: BigInt!
+
+  # the integration's weight in the strategy
+  weight: BigInt!
+}
+
+type StrategyTokenBalance @entity {
+  """
+  {strategy.id}#{token}
+  """
+  id: ID!
+
+  # the strategy
+  strategy: Strategy!
+
+  # the token
+  token: String!
+
+  # amount of token
+  amount: BigInt!
+}
+
+type Strategy @entity {
+  """
+  {chain}#{strategyId}
+  """
+  id: ID!
+
+  # name of strategy
+  name: String!
+
+  # tokens for strategy
+  tokens: [String!]!
+
+  # total balances by token
+  totalBalances: [StrategyTokenBalance!]! @derivedFrom(field: "strategy")
+
+  # the integrations that compose the strategy
+  integrations: [StrategyIntegration!]! @derivedFrom(field: "strategy")
+
+  # the users currently in the strategy
+  users: [UserStrategy!]! @derivedFrom(field: "strategy")
+
+  # the yield of the strategy
+  strategyYield: StrategyYield!
+}
+
+type StrategyYield @entity {
+  """
+  {strategy.id}
+  """
+  id: ID!
+
+  # the strategy
+  strategy: Strategy!
+
+  # amount of yield harvested, in native tokens
+  totalHarvestedAmount: BigInt!
+
+  # amount distributed, in native tokens
+  totalDistributedAmount: BigInt!
+
+  # amount distributed to bios buy back, in native tokens
+  totalBiosBuyBackAmount: BigInt!
+
+  # amount distributed to treasury, in native tokens
+  totalTreasuryAmount: BigInt!
+
+  # amount distributed to PFA, in native tokens
+  totalProtocolAmount: BigInt!
+
+  # amount distributed to strategy members, in native tokens
+  totalStrategyAmount: BigInt!
+
+  # most recent distribution amount, in native tokens
+  lastDistributedAmount: BigInt!
+
+  # most recent distribution amount, in native tokens
+  lastBiosBuyBackAmount: BigInt!
+
+  # most recent distribution amount, in native tokens
+  lastTreasuryAmount: BigInt!
+
+  # most recent distribution amount, in native tokens
+  lastProtocolAmount: BigInt!
+
+  # most recent distribution amount, in native tokens
+  lastStrategyAmount: BigInt!
+
+  # block of most recent distribution
+  lastDistributionBlock: BigInt!
+
+  # timestamp of most recent distribution
+  lastDistributionTime: BigInt!
+
+  # effective APR of the most recent distribution
+  lastEffectiveAPRX1000: BigInt!
+  lastEffectiveAPRX10000: BigInt!
+
+  # used to calculate averageEffectiveAPRX10000
+  recentEffectiveAPRX10000: [BigInt!]!
+
+  # effective APR averaged over the last 7 distributions
+  averageEffectiveAPRX10000: BigInt!
+
+  # block of the first distribution
+  firstDistributionBlock: BigInt!
+
+  # timestamp of the first distribution
+  firstDistributionTime: BigInt!
+
+  # period of last harvest
+  lastPeriod: BigInt!
+
+  # average period between distributions
+  averagePeriod: BigInt!
+
+  # number of distributions that have occured
+  distributionCount: BigInt!
+
+  # amount of yield harvested to the YieldManager, pending distribution
+  # this is how much has been harvested, not a real time pending yield
+  pendingDistributionAmount: BigInt!
+}
+
+type User @entity {
+  """
+  {chain}#{address}
+  """
+  id: ID!
+
+  # the user's address
+  address: Bytes!
+
+  # the strategies the user is in
+  strategies: [UserStrategy!]! @derivedFrom(field: "user")
+}
+
+type UserStrategy @entity {
+  """
+  {strategy.id}#{user}
+  """
+  id: ID!
+
+  # the strategy
+  strategy: Strategy!
+
+  # the user
+  user: User!
+
+  # user's strategy balances
+  balances: [UserStrategyBalance!]! @derivedFrom(field: "userStrategy")
+
+  # block first entered
+  firstEntered: BigInt!
+
+  # block of the last time the user entered from 0
+  lastEntered: BigInt!
+
+  # block if the user has withdrawn to 0
+  exitedSince: BigInt
+}
+
+type UserStrategyBalance @entity {
+  """
+  {userStrategy.id}#{token}
+  """
+  id: ID!
+
+  # the userStrategy
+  userStrategy: UserStrategy!
+
+  # address of token
+  token: Bytes!
+
+  # amount of token
+  amount: BigInt!
+}
+
+type DistributionWeighting @entity {
+  """
+  {chain}
+  """
+  id: ID!
+
+  # weight of yield to bios buy back
+  biosBuyBack: BigInt!
+
+  # weight of yield to treasury
+  treasury: BigInt!
+
+  # weight of yield to PFA
+  protocol: BigInt!
+
+  # weight of yield to users in strategy
+  strategy: BigInt!
+
+  # sum of weights (denominator)
+  total: BigInt!
+
+  # time last updated
+  lastUpdatedBlock: BigInt!
+  lastUpdatedTime: BigInt!
+}

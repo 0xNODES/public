@@ -1,0 +1,161 @@
+specVersion: 0.0.3
+description: 0xNODES System11 Subgraph
+repository: https://github.com/0xnodes/platform
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: StrategyMap
+    network: andromeda
+    source:
+      address: "0x0Ee59c17E35DF0B828DE3E5A0Bd6D8729d34a832"
+      abi: StrategyMap
+      startBlock: 812576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Strategy
+        - StrategyIntegration
+        - StrategyYield
+      abis:
+        - name: StrategyMap
+          file: StrategyMap/abi/StrategyMap.json
+        - name: YieldManager
+          file: StrategyMap/abi/YieldManager.json
+      eventHandlers:
+        - event: NewStrategy(indexed uint256,(address,uint32)[],(uint256,address,uint32)[],string)
+          handler: handleNewStrategy
+        - event: UpdateName(indexed uint256,string)
+          handler: handleUpdateName
+      file: StrategyMap/StrategyMap.wasm
+  - kind: ethereum/contract
+    name: UserPositions
+    network: andromeda
+    source:
+      address: "0x2a5352C810D0C1cC1e907Db0552459B46a82433B"
+      abi: UserPositions
+      startBlock: 812576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Strategy
+        - StrategyTokenBalance
+        - TokenTotalDeposits
+      abis:
+        - name: ERC20
+          file: UserPositions/abi/IERC20MetadataUpgradeable.json
+        - name: IntegrationMap
+          file: UserPositions/abi/IntegrationMap.json
+        - name: UserPositions
+          file: UserPositions/abi/UserPositions.json
+      eventHandlers:
+        - event: EnterStrategy(indexed uint256,indexed address,(address,uint256)[])
+          handler: handleEnterStrategy
+        - event: ExitStrategy(indexed uint256,indexed address,(address,uint256)[])
+          handler: handleExitStrategy
+        - event: Deposit(indexed address,address[],uint256[],uint256)
+          handler: handleDeposit
+      file: UserPositions/UserPositions.wasm
+  - kind: ethereum/contract
+    name: YieldManager
+    network: andromeda
+    source:
+      address: "0x34B41c2BEb2d5BA75cfd78047908f22F79468104"
+      abi: YieldManager
+      startBlock: 812576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - DistributionWeights
+      abis:
+        - name: YieldManager
+          file: YieldManager/abi/YieldManager.json
+      eventHandlers:
+        - event: HarvestYield(uint256,address[],uint256)
+          handler: handleHarvestYield
+      file: YieldManager/YieldManager.wasm
+  - kind: ethereum/contract
+    name: Kernel
+    network: andromeda
+    source:
+      address: "0xa1DA47F6563e7B17075FcA61DeDC4622aE2F3912"
+      abi: Kernel
+      startBlock: 812576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - DistributionWeighting
+        - PlatformData
+        - StrategyYield
+        - Token
+      abis:
+        - name: IntegrationMap
+          file: Kernel/abi/IntegrationMap.json
+        - name: Kernel
+          file: Kernel/abi/Kernel.json
+        - name: ERC20
+          file: Kernel/abi/IERC20MetadataUpgradeable.json
+      eventHandlers:
+        - event: EthDistributionWeightsUpdated(uint32,uint32,uint32,uint32)
+          handler: handleEthDistributionWeightsUpdated
+        - event: DistributeEth()
+          handler: handleDistributeEth
+        - event: TokenAdded(indexed
+            address,bool,bool,bool,bool,uint256,uint256,uint256,uint256,uint256)
+          handler: handleTokenAdded
+        - event: Withdraw(indexed address,address[],uint256[],uint256)
+          handler: handleWithdraw
+      file: Kernel/Kernel.wasm
+  - kind: ethereum/contract
+    name: LegacyKernel
+    network: andromeda
+    source:
+      address: "0xa1DA47F6563e7B17075FcA61DeDC4622aE2F3912"
+      abi: LegacyKernel
+      startBlock: 812576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Token
+      abis:
+        - name: IntegrationMap
+          file: LegacyKernel/abi/IntegrationMap.json
+        - name: LegacyKernel
+          file: LegacyKernel/abi/ILegacyKernel.json
+        - name: ERC20
+          file: LegacyKernel/abi/IERC20MetadataUpgradeable.json
+      eventHandlers:
+        - event: TokenAdded(indexed address,bool,bool,uint256,uint256)
+          handler: handleTokenAddedLegacy
+      file: Kernel/Kernel.wasm
+  - kind: ethereum/contract
+    name: IntegrationMap
+    network: andromeda
+    source:
+      address: "0x468D12bf37aB192d4584452AD4D295ab3e81A255"
+      abi: IntegrationMap
+      startBlock: 812576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - PlatformData
+        - Token
+      abis:
+        - name: IntegrationMap
+          file: IntegrationMap/abi/IntegrationMap.json
+      eventHandlers:
+        - event: TokenSettingToggled(indexed address,indexed uint8,indexed bool)
+          handler: handleTokenSettingToggled
+      file: IntegrationMap/IntegrationMap.wasm
