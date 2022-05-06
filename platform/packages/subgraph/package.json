@@ -1,0 +1,36 @@
+{
+  "name": "@0xnodes/subgraph",
+  "version": "0.1.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "engines": {
+    "node": "16.5.0"
+  },
+  "scripts": {
+    "codegen": "graph codegen",
+    "pre-build": "cp -R ../addresses/deployment-artifacts/abi ./",
+    "build:mainnet": "./scripts/build.sh mainnet",
+    "build:matic": "./scripts/build.sh matic",
+    "build:fantom": "./scripts/build.sh fantom",
+    "build:avax": "./scripts/build.sh avax",
+    "build:bsc": "./scripts/build.sh bsc",
+    "build:metis": "./scripts/build.sh metis",
+    "build:kovan": "./scripts/build.sh kovan",
+    "deploy:dev": "yarn build:mainnet && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xnodes/sys11-dev subgraph-mainnet.yaml",
+    "deploy:mainnet": "yarn build:mainnet && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xnodes/System11 subgraph-mainnet.yaml",
+    "deploy:matic": "yarn build:matic && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xnodes/System11-polygon subgraph-matic.yaml",
+    "deploy:fantom": "yarn build:fantom && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xnodes/System11-fantom subgraph-fantom.yaml",
+    "deploy:avax": "yarn build:avax && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xnodes/System11-avalanche subgraph-avax.yaml",
+    "deploy:bsc": "yarn build:bsc && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xnodes/System11-bsc subgraph-bsc.yaml",
+    "deploy:kovan": "yarn build:kovan && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xnodes/sys11-kovan subgraph-kovan.yaml",
+    "create-local": "graph create --node http://localhost:8020/ 0xnodes/System11",
+    "remove-local": "graph remove --node http://localhost:8020/ 0xnodes/System11",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 0xnodes/System11"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "0.26.0",
+    "@graphprotocol/graph-ts": "0.24.1",
+    "mustache": "^4.2.0"
+  }
+}

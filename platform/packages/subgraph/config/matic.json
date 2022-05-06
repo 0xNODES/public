@@ -1,0 +1,12 @@
+{
+  "network": "matic",
+  "address": {
+    "kernel": "0x649Cfd798Dd0e3400A9B691ec29b41d40F62A0C2",
+    "strategyMap": "0x13CDDF5634A1f4D216CF4fEf45Bb805AE4c496A4",
+    "userPositions": "0x7CD26A6E400b22d5853c5Bc77CBD9A149C997068",
+    "yieldManager": "0x004d82B0A46AB822E7AA0de97B6262059D735351",
+    "integrationMap": "0x3A3A3D3738e4Ba493D3eDeDabf9fe2C25F979912",
+    "wrappedNative": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+  },
+  "startBlock": "22880000"
+}
