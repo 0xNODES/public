@@ -1,0 +1,12 @@
+{
+  "network": "fantom",
+  "address": {
+    "kernel": "0x9db0E84EA53C5a3c000a721Bb4295a6053b3dE78",
+    "strategyMap": "0xb0fFCcE64c5e0d2d4608B1b77986A95D309bCa5A",
+    "userPositions": "0xd4fACFe974B8b4C2e5BD8020B1dcc8C4C6459014",
+    "yieldManager": "0x2F5f27a5EC19f5Aa73b3Ab80Ee8210cB661D5C82",
+    "integrationMap": "0x959dED92DC0622217b3E0e5009EFFF1d445dE143",
+    "wrappedNative": "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83"
+  },
+  "startBlock": "26518000"
+}

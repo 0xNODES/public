@@ -1,0 +1,12 @@
+{
+  "network": "avalanche",
+  "address": {
+    "kernel": "0x479eA3715682E6255234E788875bDbded6FaAe41",
+    "strategyMap": "0x93f86742D9d7478CcbE85560F20A5Bf9F8d00A51",
+    "userPositions": "0x363Da5aDd8047fbFeB56bceDB886c13CD4e54A85",
+    "yieldManager": "0x7D0a2Bc0b5C6Fa805Ae4f21F398690366226A7c1",
+    "integrationMap": "0xdA1D779646949D0a35F51411F38AD7322954c6cB",
+    "wrappedNative": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7"
+  },
+  "startBlock": "8926000"
+}

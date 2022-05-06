@@ -1,0 +1,12 @@
+{
+  "network": "kovan",
+  "address": {
+    "kernel": "0xBEF10b27fa0319D6CE45E18d3d6eBb8C7e1a4bA0",
+    "strategyMap": "0x06E0fDC7F87C688B37dE16A9A4E7962D7bF86bd0",
+    "userPositions": "0x55Fd8aA2ea722b8CC7952947Fbb4CE190772F020",
+    "yieldManager": "0xC0D9029568dC076dA64B606d1c28d3983Fa6DdfA",
+    "integrationMap": "0xfea8Dd3d019075264DCDe73004414aaB10ec1602",
+    "wrappedNative": "0xd0A1E359811322d97991E03f863a0C30C2cF029C"
+  },
+  "startBlock": "29706611"
+}
